@@ -13,6 +13,7 @@
 using namespace std;
 
 class Node {
+
 private:
 	Node *fChild;
 	Node *nSibling;

@@ -22,10 +22,14 @@ typedef struct{
 
 class Element
 {
+
+private:
+
 	string tagname;
 	list<attribute> attributes;
 	string innerhtml;
 
+public:
 	//Builder
 	Element(): tagname(), attributes(), innerhtml() {};
 
