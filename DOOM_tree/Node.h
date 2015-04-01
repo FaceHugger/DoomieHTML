@@ -8,35 +8,36 @@
 #ifndef NODE_H_
 #define NODE_H_
 
-#include "Element.h"
+#ifndef CSTDEF
+	#include <cstddef>
+#endif
 
-using namespace std;
+#include "Element.h"
 
 class Node {
 
-private:
-	Element info;
-	Node *fChild;
-	Node *nSibling;
+	private:
+		Element info;
+		Node *fChild;
+		Node *nSibling;
 
-public:
-	Node() :
-			info(), fChild(), nSibling() {};
+	public:
+		Node() :
+			info(), fChild(NULL), nSibling(NULL) {};
 
-	Node(Element content) :
-		info(content), fChild(), nSibling() {};
+		Node(Element content) :
+			info(content), fChild(NULL), nSibling(NULL) {};
 
-	Node(Element content, Node *leftChild, Node *rigthSibling) :
-		info(content), fChild(leftChild), nSibling(rigthSibling) {};
+		Node(Element content, Node *leftChild, Node *rigthSibling) :
+			info(content), fChild(leftChild), nSibling(rigthSibling) {};
 
-	Element element() {return(info);}
-	Node *firstChild() {return(fChild);}
-	Node *nextSibling() {return(nSibling);}
+		Element element() {return(info);}
+		Node *firstChild() {return(fChild);}
+		Node *nextSibling() {return(nSibling);}
 
-	void setelement(Element content) { info = content;}
-	void setfirstChild(Node *leftChild) {fChild = leftChild;}
-	void setnextSibling(Node *rightSibling) {nSibling = rightSibling;}
-
+		void setelement(Element content) { info = content; }
+		void setfirstChild(Node *leftChild) { fChild = leftChild; }
+		void setnextSibling(Node *rightSibling) { nSibling = rightSibling; }
 };
 
 #endif /* NODE_H_ */

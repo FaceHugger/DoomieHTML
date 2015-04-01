@@ -8,45 +8,56 @@
 #ifndef ELEMENT_H_
 #define ELEMENT_H_
 
-#include <iostream>
-#include <string>
-#include <list>
+#ifndef STRING
+	#include <string>
+	using std::string;
+#endif
 
-using namespace std;
+#ifndef LIST
+	#include <list>
+	using std::list;
+#endif
 
-typedef struct{
-	string name;
-	string value;
-
-}attribute;  /// "name='value'"
+#ifndef ATTRIBUTE_H_
+	#include "Attribute.h"
+#endif
 
 class Element
 {
 
-private:
+	private:
 
-	string tagname;
-	list<attribute> attributes;
-	string innerhtml;
+		string tagname;
+		list<attribute> attributes;
+		string innerhtml;
 
-public:
-	//Builder
-	Element(): tagname(), attributes(), innerhtml() {};
+	public:
+		//Builders
+		Element() : tagname(" "), attributes(), innerhtml(" ") {};
+		Element(string tN, list<attribute> a, string iH) : tagname(tN), attributes(a), innerhtml(iH) {};
 
-	//Consult
-	string tagName() { return tagname; }
-	list<attribute> attributeList() {return attributes;}
-	string innerHTML() {return innerhtml;}
+		//Consult
+		string tagName() { return tagname; }
+		list<attribute> attributeList() { return attributes; }
+		string innerHTML() { return innerhtml; }
 
-	//Modifier
-	void setTagName(string tagN) {tagname = tagN;}
-	void setAttributeList( list<attribute> listofattributes) {attributes = listofattributes;}
-	void setinnerHTML(string inner) {innerhtml = inner;}
-
-
-
+		//Modifier
+		void setTagName(string tagN) { tagname = tagN; }
+		void setAttributeList( list<attribute> listofattributes) { attributes = listofattributes; }
+		void setinnerHTML(string inner) { innerhtml = inner; }
+		
+		//Overload of operator '='
+		Element &operator=(const Element &);	
 };
 
+Element &Element::operator=(const Element &orig)
+{
+	this->tagname = orig.tagname;
+	this->attributes = orig.attributes;
+	this->innerhtml = orig.innerhtml;
+		
+	return *this;
+}
 
 
 #endif /* ELEMENT_H_ */
