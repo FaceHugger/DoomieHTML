@@ -28,21 +28,25 @@ int main()
 	//n1 = new Node(elem);
 	
 	//Testing overloads
-	cout << a1.getName() << "  " << a1.getValue() << endl;
+	cout << a1 << endl;
+	//cout << a1.getName() << "  " << a1.getValue() << endl;
 	a1 = a2;
-	cout << a1.getName() << "  " << a1.getValue() << endl;
+	//cout << a1.getName() << "  " << a1.getValue() << endl;
+	cout << a1 << endl;
 	
-	cout << e1.tagName() << "  " 
+	cout << e1 << endl;
+	/*cout << e1.tagName() << "  " 
 		 << e1.attributeList().front().getName() << "  " 
 		 << e1.attributeList().front().getValue() << " "
-		 << e1.innerHTML() << endl;
+		 << e1.innerHTML() << endl;*/
 		 
 	e1 = e2;
 	
-	cout << e1.tagName() << "  " 
+	cout << e1 << endl;
+	/*cout << e1.tagName() << "  " 
 		 << e1.attributeList().front().getName() << "  " 
 		 << e1.attributeList().front().getValue() << " "
-		 << e1.innerHTML() << endl;
+		 << e1.innerHTML() << endl;*/
 
 	//cin >> example;
 	

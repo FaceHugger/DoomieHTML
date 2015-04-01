@@ -6,6 +6,12 @@
 	using std::string;
 #endif
 
+#ifndef IOSTREAM
+	#include <iostream>
+	using std::cout;
+	using std::ostream;
+#endif
+
 class attribute
 {
 	private:
@@ -22,9 +28,11 @@ class attribute
 		void setName(string n) { name = n; }
 		void setValue(string v) { value = v; }
 		
-		//Overload of operator '='
+		//Overload of operators
+		//=
 		attribute &operator=(const attribute &);
-		
+		//<<
+		friend ostream &operator<<(ostream &, const attribute &);
 };
 
 attribute &attribute::operator=(const attribute &orig)
@@ -33,6 +41,12 @@ attribute &attribute::operator=(const attribute &orig)
 	value = orig.value;
 	
 	return *this;
+}
+
+ostream &operator<<(ostream &output, const attribute &a)
+{
+	output << "Name: " << a.name << " Value: " << a.value;
+	return output;
 }
 
 #endif // ATTRIBUTE_H_
