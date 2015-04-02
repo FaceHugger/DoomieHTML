@@ -25,7 +25,7 @@
 #ifndef IOSTREAM
 	#include <iostream>
 	using std::cout;
-	//using std::ostream;
+	using std::ostream;
 #endif
 
 class Element
