@@ -79,93 +79,83 @@ void Element :: readstring(string input)
   
   std::string::iterator it = input.begin();
 
- 
-  
   while(*it != '>' && !theEnd)
   {
    
-   
       if(*it == '<' || *it == '/')
       {
-	it++;
+          it++;
       }
          
       if(*it != ' ' && !flagTag) // saving tag
       {
-	
-	tagname += *it;
-	
+          tagname += *it;
       }else
       {
-	flagTag=true;
-	
-	if( *it == ' ')
-	  it++;
-	
-	if(*it != '=' && !flagAName)
-	{
-	  name += *it;
-
-	  
-	}else
-	{
-	  flagAName = true;
-	  cont++;
-	  
-	  if(*it == '=')
-	    it++;
-	  
-	  while(*it != '"' && !flagAValue)
-	  {
-	    value += *it;
-	
-	    if(*it == '"')
-	    {
-	      cont++;
-	      it++;
-	      flagAValue=true;
-	    }
-	    
-	    it++;
-	   
-	  }
-	  
-	  if(cont == 2)
-	  {
-	
-	    info.setName(name);
-	    info.setValue(value);
-	    
-	    Attributes.push_back(info);
-	    
-	    flagAName = false;
-	    flagAValue = false;
-	    name.clear();
-	    value.clear();
-	    cont = 0;
+          flagTag=true;
+          
+          if( *it == ' ')
+              it++;
+          
+          if(*it != '=' && !flagAName)// saving attribute name
+          {
+              name += *it;
+          }else
+          {
+              flagAName = true;
+              cont++;
+              
+              if(*it == '=')
+                  it++;
+              
+              while(*it != '"' && !flagAValue) // sving attribute value
+              {
+                  value += *it;
+                  
+                  if(*it == '"')
+                  {
+                      cont++;
+                      it++;
+                      flagAValue=true;
+                  }
+                  
+                  it++;
+              }
+              
+              if(cont == 2)//if cont has count 2 double quotes 
+              {
+                  //save attribute in a list
+                  info.setName(name); 
+                  info.setValue(value);
+                  Attributes.push_back(info);
+                  
+                  //reset flags and local strings
+                  flagAName = false;
+                  flagAValue = false;
+                  name.clear();
+                  value.clear();
+                  cont = 0;
 	      
-	    if(*it == '>')
-	      theEnd=true;
-	    
-	  }
-	}
+                  if(*it == '>')
+                      theEnd=true;
+              }
+          }
       }
       
       it++;
   }
- 
-  if(*it == '>')
-    it++;
-  
-  if( it != input.end())
-  {
-    while(*it != '<') // saving innerHTML
-    {     
-      innerhtml += *it;
-      it++;
+    
+    if(*it == '>')
+        it++;
+    
+    if( it != input.end())
+    {
+        while(*it != '<') // saving innerHTML
+        {     
+            innerhtml += *it;
+            it++;
+        }
     }
-  }
-  
 }
 
   
