@@ -22,6 +22,15 @@
 	#include "Attribute.h"
 #endif
 
+<<<<<<< HEAD
+=======
+#ifndef IOSTREAM
+	#include <iostream>
+	using std::cout;
+	using std::ostream;
+#endif
+
+>>>>>>> 3876a76827d45b68fbdafbd37c8ad6a0e86141ee
 class Element
 {
 
@@ -48,8 +57,12 @@ class Element
 		void setinnerHTML(string inner) { innerhtml = inner; }
 		void readstring(string input);
 		
-		//Overload of operator '='
-		Element &operator=(const Element &);	
+		//Overload of operators
+		//=
+		Element &operator=(const Element &);
+		//<<
+		friend ostream &operator<<(ostream &, list<Attribute> &);
+		friend ostream &operator<<(ostream &, Element &);	
 };
 
 void Element :: readstring(string input)
@@ -172,7 +185,9 @@ void Element :: print()
   cout << innerhtml << endl;
 }
   
-  
+//Overloads
+
+//= Element
 Element &Element::operator=(const Element &orig)
 {
 	this->tagname = orig.tagname;
@@ -182,5 +197,21 @@ Element &Element::operator=(const Element &orig)
 	return *this;
 }
 
+//<< list<Attribute>
+ostream &operator<<(ostream &output, list<Attribute> &l)
+{
+	cout << "Attributes:";
+	for (list<Attribute>::iterator it = l.begin(); it != l.end(); ++it)
+		output << " " << *it;
+	
+	return output;
+}
+
+//<< Element
+ostream &operator<<(ostream &output, Element &e)
+{
+	output << "TagName: " << e.tagname << " " << e.Attributes << " InnerHTML: " << e.innerhtml;
+	return output;
+}
 
 #endif /* ELEMENT_H_ */
