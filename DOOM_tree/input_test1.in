@@ -1,1 +1,7 @@
-"(<html> <head> <meta charset="utf-8">)";
+Tested inputs to build an Element 
+Element 1 
+<p id=\"contenido\">-Hola Mundo!!!</p>
+Element 2
+<meta name=\"description\" content=\"Una guía interactiva de primeros pasos para Brackets.\">
+Element 3
+<title>PRIMEROS PASOS CON BRACKETS</title>
