@@ -6,21 +6,15 @@
 	using std::string;
 #endif
 
-#ifndef IOSTREAM
-	#include <iostream>
-	using std::cout;
-	using std::ostream;
-#endif
-
-class attribute
+class Attribute
 {
 	private:
 		string name, value;
 	
 	public:
 		//Builders
-		attribute() : name(" "), value(" ") {};
-		attribute(string n, string v) : name(n), value(v) {};
+		Attribute() : name(" "), value(" ") {};
+		Attribute(string n, string v) : name(n), value(v) {};
 		
 		string getName() { return name; }
 		string getValue() { return value; }
@@ -28,29 +22,17 @@ class attribute
 		void setName(string n) { name = n; }
 		void setValue(string v) { value = v; }
 		
-		//Overload of operators
-		//=
-		attribute &operator=(const attribute &);
-		//<<
-		friend ostream &operator<<(ostream &, const attribute &);
+		//'=' Overload
+		Attribute &operator=(const Attribute &);
+		
 };
 
-//Overloads
-
-//= attribute
-attribute &attribute::operator=(const attribute &orig)
+Attribute &Attribute::operator=(const Attribute &orig)
 {
 	name = orig.name;
 	value = orig.value;
 	
 	return *this;
-}
-
-//<< attribute
-ostream &operator<<(ostream &output, const attribute &a)
-{
-	output << "Name: " << a.name << " Value: " << a.value;
-	return output;
 }
 
 #endif // ATTRIBUTE_H_
