@@ -35,6 +35,9 @@ class attribute
 		friend ostream &operator<<(ostream &, const attribute &);
 };
 
+//Overloads
+
+//= attribute
 attribute &attribute::operator=(const attribute &orig)
 {
 	name = orig.name;
@@ -43,6 +46,7 @@ attribute &attribute::operator=(const attribute &orig)
 	return *this;
 }
 
+//<< attribute
 ostream &operator<<(ostream &output, const attribute &a)
 {
 	output << "Name: " << a.name << " Value: " << a.value;

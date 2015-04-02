@@ -59,6 +59,9 @@ class Element
 		friend ostream &operator<<(ostream &, Element &);
 };
 
+//Overloads
+
+//= Element
 Element &Element::operator=(const Element &orig)
 {
 	this->tagname = orig.tagname;
@@ -68,6 +71,7 @@ Element &Element::operator=(const Element &orig)
 	return *this;
 }
 
+//<< list<attribute>
 ostream &operator<<(ostream &output, list<attribute> &l)
 {
 	cout << "Attributes:";
@@ -77,6 +81,7 @@ ostream &operator<<(ostream &output, list<attribute> &l)
 	return output;
 }
 
+//<< Element
 ostream &operator<<(ostream &output, Element &e)
 {
 	output << "TagName: " << e.tagname << " " << e.attributes << " InnerHTML: " << e.innerhtml;
