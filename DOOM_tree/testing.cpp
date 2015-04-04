@@ -17,10 +17,10 @@ using std::cin;
 
 int main()
 {
-	DOM_Tree aTree;
-	Node n1;
-	string example = "<title>PRIMEROS PASOS CON BRACKETS</title>"; // Need to find a way read double quoting input without escape characters ASAP.
+	
+	Node *n1;
 	Element elem;
+	string str;
 	Attribute a1("hello", "world"), a2("hello2", "world2");
 	list<Attribute> l1(1, a1), l2(1, a2);
 	Element e1("html", l1, "Hi!"), e2("html2", l2, "Hi!2");
@@ -49,8 +49,23 @@ int main()
 
 	/* Testing Elemet input */
 	
-	elem.readstring(example); // Change for overload of >> in class Element
-	elem.print(); // Change for overload of << in class Element
+	getline(cin, str);
+	elem.readstring(str); // Change for overload of '>>' in class Element
+	
+	
+
+	/*Testing DOM_Tree building */
+	
+	DOM_Tree aTree(elem);
+	DOM_Tree bTree;
+	
+	
+	bTree.appendChild(aTree);
+	bTree.appendChild(1, aTree); // Need more testing
+	
+	DOM_Tree cTree(bTree);
+	cout << bTree.infoRoot() << endl;
+	cout << cTree.infoRoot() << endl;
 	
 	return 0;
 }

@@ -47,7 +47,7 @@ class Node {
 		
 		//Overload of operators
 		//= 
-		Node &operator=(const Node &);
+		//Node &operator=(const Node &);
 		//<<
 		friend ostream &operator<<(ostream &, const Node &);
 };
@@ -55,6 +55,7 @@ class Node {
 //Overloads
 
 //= Node
+/*
 Node &Node::operator=(const Node &orig)
 {
 	this->info = orig.info;
@@ -62,7 +63,7 @@ Node &Node::operator=(const Node &orig)
 	this->nSibling = orig.nSibling;
 	
 	return *this;
-}
+}*/
 
 //<< Node
 ostream &operator<<(ostream &output, const Node &n)

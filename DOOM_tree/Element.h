@@ -22,15 +22,14 @@
 	#include "Attribute.h"
 #endif
 
-<<<<<<< HEAD
-=======
+
 #ifndef IOSTREAM
 	#include <iostream>
 	using std::cout;
 	using std::ostream;
 #endif
 
->>>>>>> 3876a76827d45b68fbdafbd37c8ad6a0e86141ee
+
 class Element
 {
 
@@ -42,7 +41,8 @@ class Element
 
 	public:
 		//Builders
-		Element() : tagname(" "), Attributes(), innerhtml(" ") {};
+		Element() : tagname(), Attributes(), innerhtml() {};
+		Element(string tN): tagname(tN), Attributes(), innerhtml() {};
 		Element(string tN, list<Attribute> a, string iH) : tagname(tN), Attributes(a), innerhtml(iH) {};
 
 		//Consult
@@ -61,8 +61,8 @@ class Element
 		//=
 		Element &operator=(const Element &);
 		//<<
-		friend ostream &operator<<(ostream &, list<Attribute> &);
-		friend ostream &operator<<(ostream &, Element &);	
+		friend ostream &operator<<(ostream &, const list<Attribute> &);
+		friend ostream &operator<<(ostream &, const Element &);	
 };
 
 void Element :: readstring(string input)
@@ -76,7 +76,8 @@ void Element :: readstring(string input)
   Attribute info;
 
   cont = 0;
-  
+  theEnd = false;
+  flagTag = flagAName = flagAValue = false;
   std::string::iterator it = input.begin();
 
   while(*it != '>' && !theEnd)
@@ -146,7 +147,10 @@ void Element :: readstring(string input)
   }
     
     if(*it == '>')
+    {
         it++;
+	innerhtml.clear();
+    }
     
     if( it != input.end())
     {
@@ -158,49 +162,39 @@ void Element :: readstring(string input)
     }
 }
 
-  
-void Element :: print()
-{
-  list<Attribute> aux;
-  
-  aux = Attributes;
-  
-  cout << tagname << " "; 
-  while(!aux.empty())
-  {
-    cout << aux.front().getName() << " ";
-    cout << aux.front().getValue() << " ";
-    aux.pop_front();
-  }
-  cout << innerhtml << endl;
-}
+
   
 //Overloads
 
 //= Element
-Element &Element::operator=(const Element &orig)
+Element & Element::operator=(const Element &orig)
 {
 	this->tagname = orig.tagname;
 	this->Attributes = orig.Attributes;
 	this->innerhtml = orig.innerhtml;
-		
 	return *this;
 }
 
 //<< list<Attribute>
-ostream &operator<<(ostream &output, list<Attribute> &l)
+ostream &operator<<(ostream &output, const list<Attribute> &l)
 {
-	cout << "Attributes:";
-	for (list<Attribute>::iterator it = l.begin(); it != l.end(); ++it)
+	for (list<Attribute>::const_iterator it = l.begin(); it != l.end(); ++it)
 		output << " " << *it;
 	
 	return output;
 }
 
 //<< Element
-ostream &operator<<(ostream &output, Element &e)
+ostream &operator<<(ostream &output, const Element &e)
 {
-	output << "TagName: " << e.tagname << " " << e.Attributes << " InnerHTML: " << e.innerhtml;
+	output << "<" << e.tagname;
+	if(!e.Attributes.empty())
+	{
+	  output << e.Attributes;
+	  cout << ">";
+	}
+	if(!e.innerhtml.empty())
+	  output<< ">" << e.innerhtml << "</" << e.tagname << ">";
 	return output;
 }
 

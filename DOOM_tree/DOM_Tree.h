@@ -30,12 +30,17 @@ class DOM_Tree{
 		void empty();
 		static Node *copyNodes(Node *);
 		void copy(const DOM_Tree &);
+		Node *getRoot() {return root;}
+		
 	public:
 		DOM_Tree() : root(NULL) {};
+		DOM_Tree(Element e) {root = new Node(e);}
 		DOM_Tree(Element info, list<DOM_Tree> childs);
-		DOM_Tree(const DOM_Tree &n_root); // builder copy
+		DOM_Tree(const DOM_Tree &aRoot); // copy constructor
 		//~DOM_Tree(); // destructor
-
+		 
+		                           
+		Element infoRoot() {return root->element(); }
 		DOM_Tree childNode(int p);
 		DOM_Tree getElementByID(string id); // returns a list of subtrees whose roots match with the id requested
 		
@@ -51,6 +56,12 @@ class DOM_Tree{
 
 ///Private methods:
 
+DOM_Tree :: DOM_Tree(const DOM_Tree &aRoot)
+{
+  root = copyNodes(aRoot.root);
+}
+
+
 Node *DOM_Tree::copyNodes(Node *n)
 {
 	Node *newNode;
@@ -62,6 +73,7 @@ Node *DOM_Tree::copyNodes(Node *n)
 
     return newNode;
 }
+
 
 void DOM_Tree::copy(const DOM_Tree &D)
 {
@@ -96,7 +108,49 @@ void DOM_Tree::empty()
     }
 }
 
+
 ///Public methods:
+
+
+void DOM_Tree :: appendChild(DOM_Tree newChild)
+{
+
+  Node *aux;
+  if(root != NULL)
+  {
+     aux = copyNodes(newChild.root);
+     aux->setnextSibling(root->firstChild());
+     root->setfirstChild(aux);
+    
+  }else
+  {
+    copy(newChild); 
+  }
+  
+ 
+}
+
+
+void DOM_Tree :: appendChild(int pos, DOM_Tree a )
+{
+  Node *aux, *aux2;
+  int i;
+
+  if(pos=1)
+     appendChild(a);
+  else
+  {
+      aux=root->firstChild();
+      for(i=2; i<= pos-1; i++)
+      {
+        aux=root->firstChild();
+      }
+          aux2=copyNodes(a.root);
+          aux2->setnextSibling(aux->nextSibling());
+          aux->setnextSibling(aux2);
+  }
+}
+
 
 //Overloads
 
@@ -111,13 +165,13 @@ DOM_Tree &DOM_Tree::operator=(const DOM_Tree &orig)
    return *this;
 }
 
-/*
-DOM_Tree :: DOM_Tree(Element info, list<Attribute> childs)
-{
-	//root = new Node(info);
 
-}
-*/
+//Destructor
+/*
+DOM_Tree::~DOM_Tree()
+{
+  empty();
+}*/
 
 
 #endif /* DOM_TREE_H_ */

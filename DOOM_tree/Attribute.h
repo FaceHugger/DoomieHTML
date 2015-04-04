@@ -6,15 +6,12 @@
 	using std::string;
 #endif
 
-<<<<<<< HEAD
-=======
 #ifndef IOSTREAM
 	#include <iostream>
 	using std::cout;
 	using std::ostream;
 #endif
 
->>>>>>> 3876a76827d45b68fbdafbd37c8ad6a0e86141ee
 class Attribute
 {
 	private:
@@ -22,7 +19,7 @@ class Attribute
 	
 	public:
 		//Builders
-		Attribute() : name(" "), value(" ") {};
+		Attribute() : name(), value() {};
 		Attribute(string n, string v) : name(n), value(v) {};
 		
 		string getName() { return name; }
@@ -52,7 +49,7 @@ Attribute &Attribute::operator=(const Attribute &orig)
 //<< Attribute
 ostream &operator<<(ostream &output, const Attribute &a)
 {
-	output << "Name: " << a.name << " Value: " << a.value;
+	output << "" << a.name << "=" << "\"" << a.value << "\"";
 	return output;
 }
 
