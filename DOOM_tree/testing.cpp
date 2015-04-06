@@ -49,23 +49,52 @@ int main()
 
 	/* Testing Elemet input */
 	
-	getline(cin, str);
-	elem.readstring(str); // Change for overload of '>>' in class Element
+	//getline(cin, str);
+	//elem.readstring(str); // Change for overload of '>>' in class Element
 	
 	
 
-	/*Testing DOM_Tree building */
+	/*Testing DOM_Tree building 
 	
 	DOM_Tree aTree(elem);
-	DOM_Tree bTree;
+	DOM_Tree bTree;*/
+	
+	/*Testing DOM_Tree methods
 	
 	
 	bTree.appendChild(aTree);
 	bTree.appendChild(1, aTree); // Need more testing
 	
 	DOM_Tree cTree(bTree);
+	
+	//bTree.removeChild(1); // memory leak
+	
 	cout << bTree.infoRoot() << endl;
-	cout << cTree.infoRoot() << endl;
+	cout << cTree.infoRoot() << endl;*/
+	
+	
+	/* Testing building a DOM-Tree from an input*/
+	
+	list<DOM_Tree> listofTrees;
+	list<Attribute> l;
+	DOM_Tree dTree;
+	
+	while(getline(cin,str)) // Building a list of DOM_Trees
+	{
+	  elem.readstring(str);
+	  dTree.appendChild(elem);
+	  listofTrees.push_back(dTree);
+	  elem.setTagName("");
+	  elem.setAttributeList(l);
+	  elem.setinnerHTML("");
+	  dTree.empty();
+	}
+	
+	while(!listofTrees.empty())
+	{
+	  cout << listofTrees.front().infoRoot() << endl;
+	  listofTrees.pop_front();
+	}
 	
 	return 0;
 }

@@ -36,24 +36,24 @@ class Element
 	private:
 
 		string tagname;
-		list<Attribute> Attributes;
+		list<Attribute> attrList;
 		string innerhtml;
 
 	public:
 		//Builders
-		Element() : tagname(), Attributes(), innerhtml() {};
-		Element(string tN): tagname(tN), Attributes(), innerhtml() {};
-		Element(string tN, list<Attribute> a, string iH) : tagname(tN), Attributes(a), innerhtml(iH) {};
+		Element() : tagname(), attrList(), innerhtml() {};
+		Element(string tN): tagname(tN), attrList(), innerhtml() {};
+		Element(string tN, list<Attribute> a, string iH) : tagname(tN), attrList(a), innerhtml(iH) {};
 
 		//Consult
 		string tagName() { return tagname; }
-		list<Attribute> AttributeList() { return Attributes; }
+		list<Attribute> AttributeList() { return attrList; }
 		string innerHTML() { return innerhtml; }
 		void print();
 
 		//Modifier
 		void setTagName(string tagN) { tagname = tagN; }
-		void setAttributeList( list<Attribute> listofAttributes) { Attributes = listofAttributes; }
+		void setAttributeList( list<Attribute> listofattributes) { attrList = listofattributes; }
 		void setinnerHTML(string inner) { innerhtml = inner; }
 		void readstring(string input);
 		
@@ -80,6 +80,7 @@ void Element :: readstring(string input)
   flagTag = flagAName = flagAValue = false;
   std::string::iterator it = input.begin();
 
+  
   while(*it != '>' && !theEnd)
   {
    
@@ -87,60 +88,85 @@ void Element :: readstring(string input)
       {
           it++;
       }
-         
-      if(*it != ' ' && !flagTag) // saving tag
+      
+      if(*it == '!')//if header
       {
-          tagname += *it;
+	tagname += *it;
+	it++;
+	if(*it == 'd' || *it == 'D')
+	{
+	   while(!flagTag)
+	  {
+	    if(*it != '>')
+	    {
+	      tagname += *it;
+	      *it++;
+	    }
+	    else
+	      flagTag=true;
+	  }
+	  
+	  theEnd=true;
+	  cont =2;
+	}
+	
       }else
       {
-          flagTag=true;
-          
-          if( *it == ' ')
-              it++;
-          
-          if(*it != '=' && !flagAName)// saving attribute name
-          {
-              name += *it;
-          }else
-          {
-              flagAName = true;
-              cont++;
-              
-              if(*it == '=')
-                  it++;
-              
-              while(*it != '"' && !flagAValue) // sving attribute value
-              {
-                  value += *it;
-                  
-                  if(*it == '"')
-                  {
-                      cont++;
-                      it++;
-                      flagAValue=true;
-                  }
-                  
-                  it++;
-              }
-              
-              if(cont == 2)//if cont has count 2 double quotes 
-              {
-                  //save attribute in a list
-                  info.setName(name); 
-                  info.setValue(value);
-                  Attributes.push_back(info);
-                  
-                  //reset flags and local strings
-                  flagAName = false;
-                  flagAValue = false;
-                  name.clear();
-                  value.clear();
-                  cont = 0;
-	      
-                  if(*it == '>')
-                      theEnd=true;
-              }
-          }
+      
+	if(*it != ' ' && !flagTag) // saving tag
+	{
+	    tagname += *it;
+	}else
+	{
+	    flagTag=true;
+	    
+	    if( *it == ' ')
+		it++;
+	    
+	    if(*it != '=' && !flagAName)// saving attribute name
+	    {
+		name += *it;
+	    }else
+	    {
+		flagAName = true;
+		cont++;
+		
+		if(*it == '=')
+		    it++;
+		
+		while(*it != '"' && !flagAValue) // saving attribute value
+		{
+		    value += *it;
+		    
+		    if(*it == '"')
+		    {
+			cont++;
+			it++;
+			flagAValue=true;
+		    }
+		    
+		    it++;
+		}
+		
+		if(cont == 2)//if cont has count 2 double quotes 
+		{
+		    //save attribute in a list
+		    info.setName(name); 
+		    info.setValue(value);
+		    attrList.push_back(info);
+		    
+		    //reset flags and local strings
+		    flagAName = false;
+		    flagAValue = false;
+		    name.clear();
+		    value.clear();
+		    cont = 0;
+		
+		    if(*it == '>')
+			theEnd=true;
+		}
+	    }
+	}
       }
       
       it++;
@@ -170,7 +196,7 @@ void Element :: readstring(string input)
 Element & Element::operator=(const Element &orig)
 {
 	this->tagname = orig.tagname;
-	this->Attributes = orig.Attributes;
+	this->attrList = orig.attrList;
 	this->innerhtml = orig.innerhtml;
 	return *this;
 }
@@ -188,13 +214,14 @@ ostream &operator<<(ostream &output, const list<Attribute> &l)
 ostream &operator<<(ostream &output, const Element &e)
 {
 	output << "<" << e.tagname;
-	if(!e.Attributes.empty())
+	if(!e.attrList.empty())
 	{
-	  output << e.Attributes;
-	  cout << ">";
+	  output << e.attrList;
 	}
 	if(!e.innerhtml.empty())
 	  output<< ">" << e.innerhtml << "</" << e.tagname << ">";
+	else
+	  cout << ">";
 	return output;
 }
 

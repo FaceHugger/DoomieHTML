@@ -27,7 +27,7 @@ class DOM_Tree{
 	private:
 		Node *root;
 
-		void empty();
+		void empty(Node *a);
 		static Node *copyNodes(Node *);
 		void copy(const DOM_Tree &);
 		Node *getRoot() {return root;}
@@ -48,6 +48,7 @@ class DOM_Tree{
 		void appendChild(int p, DOM_Tree newChild);
 		void removeChild(int p);
 		void replaceChild(int p, DOM_Tree newSubtree);
+		void empty();
 		void print(); // prints the DOM_Tree in console ( going to be changed as an "<<" overload)
 		//Overload of operators
 		//=
@@ -81,6 +82,22 @@ void DOM_Tree::copy(const DOM_Tree &D)
         root = new Node(D.root->element(), copyNodes(D.root->firstChild()), NULL);
     else
         root = NULL;
+}
+
+void DOM_Tree :: empty(Node *a)
+{
+   Node *aux, *aux2;
+
+   aux=a->firstChild();
+   
+   while(aux != NULL)
+   {
+     aux2 = aux->nextSibling();
+     empty(aux);
+     aux=aux2;
+   }
+
+   delete a;
 }
 
 void DOM_Tree::empty()
@@ -151,6 +168,22 @@ void DOM_Tree :: appendChild(int pos, DOM_Tree a )
   }
 }
 
+void DOM_Tree :: removeChild(int pos)
+{
+   Node *aux, *aux2;
+   int i;
+
+   aux=root->firstChild();
+   
+   for(i=2; i<=pos-1; i++)
+   {
+      aux = aux->nextSibling();
+   }
+
+   aux2=aux->nextSibling();
+   aux->setnextSibling(aux2->nextSibling());
+   empty(aux);
+}
 
 //Overloads
 

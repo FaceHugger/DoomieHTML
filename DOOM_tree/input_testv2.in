@@ -1,3 +1,9 @@
-<meta name="description" content="Una guía interactiva de primeros pasos para Brackets.">
-<title>PRIMEROS PASOS CON BRACKETS</title>
+<!doctype html>
+<html><head><title>Ejemplo de Página Web</title>
+</head>
+<body>
+<h1>Una Página Web</h1>
 <p id="contenido">Hola Mundo!!!</p>
+<p>Bye!!!</p>
+</body>
+</html>
