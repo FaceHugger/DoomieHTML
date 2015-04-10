@@ -9,8 +9,7 @@
 * 2 - Make a makefile to compile any main program provided by the user. 
 
 ## Contact
-#### Developer: Marien Sequera
-* e-mail: marienbsequeram@gmail.com
-* Twitter: [@mirensita_](https://twitter.com/mirensita_ "twitterhandle on twitter")
+#### Developer: Marien Sequera --- e-mail: marienbsequeram@gmail.com
+#### Developer : Sergio Mota  --- e-mail:
 
 ![Alt text](http://www.perceptdata.com/home.jpg "Tree")
