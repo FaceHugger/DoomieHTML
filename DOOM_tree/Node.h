@@ -70,5 +70,4 @@ ostream &operator<<(ostream &output, const Node &n)
 	output << "info: " << n.info << " fChild: " << n.fChild << " nSibling: " << n.nSibling;
 	return output;
 }
-
 #endif /* NODE_H_ */

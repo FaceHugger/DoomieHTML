@@ -58,17 +58,17 @@ int main()
 	  input.push_back(str);
 	}
 	
-	l = elem.convertToElem(input);
+	l = elem.convertToElem(input); // list of elements
 	
-	while(!l.empty())
-	{
-	  cout << l.front() << endl;
-	  l.pop_front();
-	}
-	/*Testing DOM_Tree building 
+	
+	
+	/*Testing DOM_Tree building */
 	
 	DOM_Tree aTree(elem);
-	DOM_Tree bTree;*/
+	DOM_Tree bTree;
+	
+	bTree.tree(l);
+	bTree.print();
 	
 	/*Testing DOM_Tree methods
 	

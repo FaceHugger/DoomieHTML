@@ -32,13 +32,15 @@ class DOM_Tree{
 		void copy(const DOM_Tree &);
 		Node *getRoot() {return root;}
 		void setRoot(Node *r) { root = r; }
+		void in_print(Node *aux);
+		void buildTree(list<Element> l);
 		
 	public:
 		DOM_Tree() : root(NULL) {};
 		DOM_Tree(Element e) {root = new Node(e);}
 		DOM_Tree(Element info, list<DOM_Tree> childs);
 		DOM_Tree(const DOM_Tree &aRoot); // copy constructor
-		~DOM_Tree(); // destructor
+		//~DOM_Tree(); // destructor
 	
 		Element infoRoot() {return root->element();}
 		DOM_Tree childNode(int p);
@@ -49,12 +51,16 @@ class DOM_Tree{
 		void removeChild(int p);
 		void replaceChild(int p, DOM_Tree newSubtree);
 		void print(); // prints the DOM_Tree in console ( going to be changed as an "<<" overload)
+		void tree(list<Element> l);
+		
+		
 		//Overload of operators
 		//=
 		DOM_Tree &operator=(const DOM_Tree &);
 };
 
 ///Private methods:
+
 
 DOM_Tree :: DOM_Tree(const DOM_Tree &aRoot)
 {
@@ -108,8 +114,72 @@ void DOM_Tree::empty()
 
 ///Public methods:
 
+
+void DOM_Tree :: buildTree(list<Element> l)
+{
+  
+  Node *aux, *aux2;
+  
+  root = new Node();
+  
+  root->setelement(l.front());
+
+  l.pop_front();
+ 
+  
+  while(!l.empty())
+  {
+    if(l.front().itsTheEnd())
+    {
+      aux2 = new Node(l.front());
+   
+      
+      if(root->firstChild() == NULL)
+      {
+	
+	root->setfirstChild(aux2);
+	//cout << root->firstChild()->element() << endl;
+      }
+      else
+      {
+	//cout << "hola2 " << endl;
+	root->setnextSibling(aux2);
+	//cout << root->nextSibling()->element() << endl;
+      }
+      
+ 
+    }
+    
+    l.pop_front();
+  }
+  
+}
+
+void DOM_Tree :: tree(list<Element> l)
+{
+  buildTree(l); 
+}
+
+void DOM_Tree :: in_print(Node *aux)
+{
+   Node *aux2;
+
+    cout << aux->element() << endl;
+    aux2=aux->firstChild();
+    while(aux2 != NULL)
+    {
+        in_print(aux2);
+	aux2=aux2->nextSibling();
+    }
+}
+
+void DOM_Tree :: print()
+{
+  in_print(root);
+}
 DOM_Tree DOM_Tree :: childNode(int p)
 {
+
 	int i=3;
 	DOM_Tree aux;
 	Node *left, *right, *ptrActL, *ptrActR;
@@ -357,11 +427,11 @@ DOM_Tree &DOM_Tree::operator=(const DOM_Tree &orig)
 
 
 //Destructor
-
+/*
 DOM_Tree :: ~DOM_Tree()
 {
 	this->empty();
 }
-
+*/
 
 #endif /* DOM_TREE_H_ */

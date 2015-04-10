@@ -50,6 +50,7 @@ class Element
 		string tagName() { return tagname; }
 		list<Attribute> AttributeList() { return attrList; }
 		string innerHTML() { return innerhtml; }
+		bool itsTheEnd() {return bslash;}
 		void print();
 
 		//Modifier
@@ -92,9 +93,7 @@ list<Element> Element :: convertToElem(list<string> input)
     newElem.innerhtml.clear();
     newElem.bslash = false;
     todaList.clear();
-    
-    
-    
+       
     aSlash = flagTag = theEnd = flagAName = flagAValue = false;
     cont = 0;
     
@@ -263,8 +262,6 @@ list<Element> Element :: convertToElem(list<string> input)
 		
 		if(!todaList.empty())
 		{
-		  //aux.push_front(todaList);
-		  cout << todaList << endl;
 		  input.push_back(todaList);
 		}
 		
@@ -275,12 +272,8 @@ list<Element> Element :: convertToElem(list<string> input)
 	}
 	
       }
-      //  if(!newElem.tagname.empty())
 	  listofElem.push_back(newElem);
-	  
-	    input.pop_front();
-	  
-	
+	  input.pop_front();
 	
   }
   
