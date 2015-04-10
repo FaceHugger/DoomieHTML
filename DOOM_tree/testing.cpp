@@ -11,6 +11,7 @@
 #include "DOM_Tree.h"
 #include "Node.h"
 #include "Element.h"
+#include <sstream>
 #include <string>
 
 using std::cin;
@@ -22,6 +23,7 @@ int main()
 	Element elem;
 	string str;
 	Attribute a1("hello", "world"), a2("hello2", "world2");
+	list<Element> l;
 	list<Attribute> l1(1, a1), l2(1, a2);
 	Element e1("html", l1, "Hi!"), e2("html2", l2, "Hi!2");
 
@@ -49,11 +51,20 @@ int main()
 
 	/* Testing Elemet input */
 	
-	//getline(cin, str);
-	//elem.readstring(str); // Change for overload of '>>' in class Element
-	
-	
 
+	list<string> input;
+	while(getline(cin, str))
+	{
+	  input.push_back(str);
+	}
+	
+	l = elem.convertToElem(input);
+	
+	while(!l.empty())
+	{
+	  cout << l.front() << endl;
+	  l.pop_front();
+	}
 	/*Testing DOM_Tree building 
 	
 	DOM_Tree aTree(elem);
@@ -75,26 +86,7 @@ int main()
 	
 	/* Testing building a DOM-Tree from an input*/
 	
-	list<DOM_Tree> listofTrees;
-	list<Attribute> l;
-	DOM_Tree dTree;
-	
-	while(getline(cin,str)) // Building a list of DOM_Trees
-	{
-	  elem.readstring(str);
-	  dTree.appendChild(elem);
-	  listofTrees.push_back(dTree);
-	  elem.setTagName("");
-	  elem.setAttributeList(l);
-	  elem.setinnerHTML("");
-	  dTree.empty();
-	}
-	
-	while(!listofTrees.empty())
-	{
-	  cout << listofTrees.front().infoRoot() << endl;
-	  listofTrees.pop_front();
-	}
+
 	
 	return 0;
 }

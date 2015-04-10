@@ -1,9 +1,12 @@
-<!doctype html>
-<html><head><title>Ejemplo de Página Web</title>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Ejemplo de Página Web</title>
 </head>
 <body>
 <h1>Una Página Web</h1>
 <p id="contenido">Hola Mundo!!!</p>
 <p>Bye!!!</p>
+<p>Este es <strong>un</strong><b>string</b></p>
 </body>
 </html>

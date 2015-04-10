@@ -38,12 +38,13 @@ class Element
 		string tagname;
 		list<Attribute> attrList;
 		string innerhtml;
+		bool bslash;
 
 	public:
 		//Builders
-		Element() : tagname(), attrList(), innerhtml() {};
-		Element(string tN): tagname(tN), attrList(), innerhtml() {};
-		Element(string tN, list<Attribute> a, string iH) : tagname(tN), attrList(a), innerhtml(iH) {};
+		Element() : tagname(), attrList(), innerhtml(), bslash(false) {};
+		Element(string tN): tagname(tN), attrList(), innerhtml(), bslash(false) {};
+		Element(string tN, list<Attribute> a, string iH) : tagname(tN), attrList(a), innerhtml(iH), bslash(false){};
 
 		//Consult
 		string tagName() { return tagname; }
@@ -55,7 +56,7 @@ class Element
 		void setTagName(string tagN) { tagname = tagN; }
 		void setAttributeList( list<Attribute> listofattributes) { attrList = listofattributes; }
 		void setinnerHTML(string inner) { innerhtml = inner; }
-		void readstring(string input);
+		list<Element> convertToElem(list<string> input);
 		
 		//Overload of operators
 		//=
@@ -65,129 +66,227 @@ class Element
 		friend ostream &operator<<(ostream &, const Element &);	
 };
 
-void Element :: readstring(string input)
+
+list<Element> Element :: convertToElem(list<string> input)
 {
-  
-  int cont;
-  bool flagTag, flagAName, flagAValue;
-  bool theEnd;
-  string name;
-  string value;
+  string elem;
+  Element newElem;
+  list<Attribute> attrList;
   Attribute info;
-
-  cont = 0;
-  theEnd = false;
-  flagTag = flagAName = flagAValue = false;
-  std::string::iterator it = input.begin();
+  elem = input.front();
+  string name, value;
+  string todaList;
+  list<string> aux, aux2; 
+  list<Element> listofElem;
+  bool flagTag, theEnd, flagAName, flagAValue;
+  bool aSlash;
+  int cont;
 
   
-  while(*it != '>' && !theEnd)
+  while(!input.empty())
   {
-   
-      if(*it == '<' || *it == '/')
+    elem = input.front();
+    std::string::iterator it = elem.begin();
+    newElem.tagname.clear();
+    newElem.attrList.clear();
+    newElem.innerhtml.clear();
+    newElem.bslash = false;
+    todaList.clear();
+    
+    
+    
+    aSlash = flagTag = theEnd = flagAName = flagAValue = false;
+    cont = 0;
+    
+      if( *it == '<' )
       {
-          it++;
-      }
-      
-      if(*it == '!')//if header
-      {
-	tagname += *it;
-	it++;
-	if(*it == 'd' || *it == 'D')
+	  it++;
+	
+	while(!theEnd)
 	{
-	   while(!flagTag)
-	  {
-	    if(*it != '>')
+	    if(*it == '/')
 	    {
-	      tagname += *it;
-	      *it++;
+	      newElem.bslash = true;
+
 	    }
-	    else
-	      flagTag=true;
-	  }
+	      if(*it == '!')//if header or comment
+	      {
+		newElem.tagname += *it;
+		it++;
+		
+		  if(*it == 'd' || *it == 'D')
+		  {
+		    while(!flagTag)
+		    {
+			if(*it != '>')
+			{
+			  newElem.tagname += *it;
+			  *it++;
+			  
+			}else
+			    flagTag=true;
+		    }
+		    theEnd=true;
+		    cont =2;
+		    
+		  }
+		  
+	      }else
+	      {
+		  if(*it != ' ' && !flagTag) // saving tag
+		  {
+		    newElem.tagname += *it;
+		  }else
+		  {
+		      flagTag=true;
+		   
+		      
+		      if( *it == ' ')
+			  it++;
+		      
+		      if(*it != '=' && !flagAName)// saving attribute name
+		      {
+			  name += *it;
+		      }else
+		      {
+			  flagAName = true;
+			  cont++;
+			  
+			  if(*it == '=')
+			      it++;
+			  
+			  while(*it != '"' && !flagAValue) // saving attribute value
+			  {
+			      value += *it;
+			      
+			      if(*it == '"')
+			      {
+				  cont++;
+				  it++;
+				  flagAValue=true;
+			      }
+			      
+			      it++;
+			  }
+			  
+			  if(cont == 2)//if cont has count 2 double quotes 
+			  {
+			      //save attribute in a list
+			      
+			      info.setName(name); 
+			      info.setValue(value);
+			      newElem.attrList.push_back(info);
+			      
+			      //reset flags and local strings
+			      flagAName = false;
+			      flagAValue = false;
+			      name.clear();
+			      value.clear();
+			      cont = 0;
+			      
+			      if(*it == '>')
+			      {
+				
+				theEnd=true;
+				  
+			      }
+			  }
+		      }
+		  }
+	    }
+	    
+	    
+	    it++;
+	    if(*it == '>')
+	    {
+	      it++;
+	      theEnd=true;	
+	    }
 	  
-	  theEnd=true;
-	  cont =2;
 	}
 	
-      }else
-      {
-      
-	if(*it != ' ' && !flagTag) // saving tag
+	if(theEnd)
 	{
-	    tagname += *it;
-	}else
-	{
-	    flagTag=true;
+	 
+	   if( it != elem.end())
+	   {   
+	      
+	     while(*it != '<') // saving innerHTML
+	      {     
+		  newElem.innerhtml += *it;
+		  it++;
+	      }
 	    
-	    if( *it == ' ')
+	      if(*it == '<') //there is more info
+	      {  
 		it++;
-	    
-	    if(*it != '=' && !flagAName)// saving attribute name
-	    {
-		name += *it;
-	    }else
-	    {
-		flagAName = true;
-		cont++;
-		
-		if(*it == '=')
-		    it++;
-		
-		while(*it != '"' && !flagAValue) // saving attribute value
+	
+		if(*it == '/')
 		{
-		    value += *it;
-		    
-		    if(*it == '"')
+		  newElem.bslash = true; // it means thats a tag closed
+		  //
+		  
+		  while(*it != '>')
+		  {
+		    it++;
+		  }
+		  
+		  it++;
+		  if(*it == '<')
+		  {
+		   
+		    while( it != elem.end())
 		    {
-			cont++;
-			it++;
-			flagAValue=true;
+		     
+		      todaList += *it;
+		      *it++;
 		    }
-		    
-		    it++;
+		   
+		  }
+		  
+		}else{
+		  
+		  todaList += '<';
 		}
 		
-		if(cont == 2)//if cont has count 2 double quotes 
+		if(!newElem.bslash)
 		{
-		    //save attribute in a list
-		    info.setName(name); 
-		    info.setValue(value);
-		    attrList.push_back(info);
-		    
-		    //reset flags and local strings
-		    flagAName = false;
-		    flagAValue = false;
-		    name.clear();
-		    value.clear();
-		    cont = 0;
-		
-		    if(*it == '>')
-			theEnd=true;
+		  
+		    while( it != elem.end())
+		    {
+		      todaList += *it;
+		      *it++;
+		      
+		    }
+		  
 		}
-	    }
+		
+		if(!todaList.empty())
+		{
+		  //aux.push_front(todaList);
+		  cout << todaList << endl;
+		  input.push_back(todaList);
+		}
+		
+	      }
+	   
+	   }
+	  
 	}
+	
       }
-      
-      it++;
+      //  if(!newElem.tagname.empty())
+	  listofElem.push_back(newElem);
+	  
+	    input.pop_front();
+	  
+	
+	
   }
-    
-    if(*it == '>')
-    {
-        it++;
-	innerhtml.clear();
-    }
-    
-    if( it != input.end())
-    {
-        while(*it != '<') // saving innerHTML
-        {     
-            innerhtml += *it;
-            it++;
-        }
-    }
+  
+  return(listofElem);
+  
 }
-
 
   
 //Overloads
