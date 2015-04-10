@@ -31,6 +31,8 @@ class Attribute
 		//Overload of operators
 		//=
 		Attribute &operator=(const Attribute &);
+		//==
+		bool operator==(Attribute );
 		//<<
 		friend ostream &operator<<(ostream &, const Attribute &);
 };
@@ -44,6 +46,12 @@ Attribute &Attribute::operator=(const Attribute &orig)
 	value = orig.value;
 	
 	return *this;
+}
+
+//==
+bool Attribute::operator==(Attribute orig)
+{
+	return(name == orig.name && value == orig.value);
 }
 
 //<< Attribute

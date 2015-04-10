@@ -37,9 +37,9 @@ class Node {
 		Node(Element content, Node *leftChild, Node *rigthSibling) :
 			info(content), fChild(leftChild), nSibling(rigthSibling) {};
 
-		Element element() {return(info);}
-		Node *firstChild() {return(fChild);}
-		Node *nextSibling() {return(nSibling);}
+		Element element() { return(info); }
+		Node *firstChild() { return(fChild); }
+		Node *nextSibling() { return(nSibling); }
 
 		void setelement(Element content) { info = content; }
 		void setfirstChild(Node *leftChild) { fChild = leftChild; }
@@ -47,7 +47,7 @@ class Node {
 		
 		//Overload of operators
 		//= 
-		//Node &operator=(const Node &);
+		Node &operator=(const Node &);
 		//<<
 		friend ostream &operator<<(ostream &, const Node &);
 };
@@ -55,7 +55,6 @@ class Node {
 //Overloads
 
 //= Node
-/*
 Node &Node::operator=(const Node &orig)
 {
 	this->info = orig.info;
@@ -63,7 +62,7 @@ Node &Node::operator=(const Node &orig)
 	this->nSibling = orig.nSibling;
 	
 	return *this;
-}*/
+}
 
 //<< Node
 ostream &operator<<(ostream &output, const Node &n)
