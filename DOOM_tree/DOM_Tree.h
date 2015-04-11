@@ -131,23 +131,15 @@ void DOM_Tree :: buildTree(list<Element> l)
   {
     if(l.front().itsTheEnd())
     {
-      aux2 = new Node(l.front());
-   
-      
-      if(root->firstChild() == NULL)
-      {
-	
-	root->setfirstChild(aux2);
-	//cout << root->firstChild()->element() << endl;
-      }
-      else
-      {
-	//cout << "hola2 " << endl;
-	root->setnextSibling(aux2);
-	//cout << root->nextSibling()->element() << endl;
-      }
-      
- 
+        aux2 = new Node(l.front());
+        if(root->firstChild() == NULL)
+        {
+            root->setfirstChild(aux2);
+        }
+        else
+        {
+            root->setnextSibling(aux2);
+        }
     }
     
     l.pop_front();

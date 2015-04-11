@@ -68,7 +68,7 @@ int main()
 	DOM_Tree bTree;
 	
 	bTree.tree(l);
-	bTree.print();
+	//bTree.print();
 	
 	/*Testing DOM_Tree methods
 	

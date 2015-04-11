@@ -99,185 +99,173 @@ list<Element> Element :: convertToElem(list<string> input)
     
       if( *it == '<' )
       {
-	  it++;
+          it++;
 	
-	while(!theEnd)
-	{
-	    if(*it == '/')
-	    {
-	      newElem.bslash = true;
+            while(!theEnd)
+            {
+                if(*it == '/')
+                {
+                  newElem.bslash = true;
 
-	    }
-	      if(*it == '!')//if header or comment
-	      {
-		newElem.tagname += *it;
-		it++;
-		
-		  if(*it == 'd' || *it == 'D')
-		  {
-		    while(!flagTag)
-		    {
-			if(*it != '>')
-			{
-			  newElem.tagname += *it;
-			  *it++;
-			  
-			}else
-			    flagTag=true;
-		    }
-		    theEnd=true;
-		    cont =2;
-		    
-		  }
-		  
-	      }else
-	      {
-		  if(*it != ' ' && !flagTag) // saving tag
-		  {
-		    newElem.tagname += *it;
-		  }else
-		  {
-		      flagTag=true;
-		   
-		      
-		      if( *it == ' ')
-			  it++;
-		      
-		      if(*it != '=' && !flagAName)// saving attribute name
-		      {
-			  name += *it;
-		      }else
-		      {
-			  flagAName = true;
-			  cont++;
-			  
-			  if(*it == '=')
-			      it++;
-			  
-			  while(*it != '"' && !flagAValue) // saving attribute value
-			  {
-			      value += *it;
-			      
-			      if(*it == '"')
-			      {
-				  cont++;
-				  it++;
-				  flagAValue=true;
-			      }
-			      
-			      it++;
-			  }
-			  
-			  if(cont == 2)//if cont has count 2 double quotes 
-			  {
-			      //save attribute in a list
-			      
-			      info.setName(name); 
-			      info.setValue(value);
-			      newElem.attrList.push_back(info);
-			      
-			      //reset flags and local strings
-			      flagAName = false;
-			      flagAValue = false;
-			      name.clear();
-			      value.clear();
-			      cont = 0;
-			      
-			      if(*it == '>')
-			      {
-				
-				theEnd=true;
-				  
-			      }
-			  }
-		      }
-		  }
-	    }
-	    
-	    
-	    it++;
-	    if(*it == '>')
-	    {
-	      it++;
-	      theEnd=true;	
-	    }
-	  
-	}
-	
-	if(theEnd)
-	{
-	 
-	   if( it != elem.end())
-	   {   
-	      
-	     while(*it != '<') // saving innerHTML
-	      {     
-		  newElem.innerhtml += *it;
-		  it++;
-	      }
-	    
-	      if(*it == '<') //there is more info
-	      {  
-		it++;
-	
-		if(*it == '/')
-		{
-		  newElem.bslash = true; // it means thats a tag closed
-		  //
-		  
-		  while(*it != '>')
-		  {
-		    it++;
-		  }
-		  
-		  it++;
-		  if(*it == '<')
-		  {
-		   
-		    while( it != elem.end())
-		    {
-		     
-		      todaList += *it;
-		      *it++;
-		    }
-		   
-		  }
-		  
-		}else{
-		  
-		  todaList += '<';
-		}
-		
-		if(!newElem.bslash)
-		{
-		  
-		    while( it != elem.end())
-		    {
-		      todaList += *it;
-		      *it++;
-		      
-		    }
-		  
-		}
-		
-		if(!todaList.empty())
-		{
-		  input.push_back(todaList);
-		}
-		
-	      }
-	   
-	   }
-	  
-	}
-	
-      }
-	  listofElem.push_back(newElem);
-	  input.pop_front();
-	
+                }
+                  if(*it == '!')//if header or comment
+                  {
+                      newElem.tagname += *it;
+                      it++;
+
+                      if(*it == 'd' || *it == 'D')
+                      {
+                          while(!flagTag)
+                          {
+                              if(*it != '>')
+                              {
+                                  newElem.tagname += *it;
+                                  *it++;
+                              }else
+                                flagTag=true;
+                          }
+
+                          theEnd=true;
+                          cont =2;
+
+                      }
+
+                  }else
+                  {
+                      if(*it != ' ' && !flagTag) // saving tag
+                      {
+                        newElem.tagname += *it;
+
+                      }else{
+
+                          flagTag=true;
+
+                          if( *it == ' ')
+                              it++;
+
+                          if(*it != '=' && !flagAName)// saving attribute name
+                          {
+                              name += *it;
+                          }else
+                          {
+                              flagAName = true;
+                              cont++;
+
+                              if(*it == '=')
+                                  it++;
+
+                              while(*it != '"' && !flagAValue) // saving attribute value
+                              {
+                                  value += *it;
+
+                                  if(*it == '"')
+                                  {
+                                      cont++;
+                                      it++;
+                                      flagAValue=true;
+                                  }
+
+                                  it++;
+                              }
+
+                              if(cont == 2)//if cont has count 2 double quotes 
+                              {
+                                  //save attribute in a list
+
+                                  info.setName(name); 
+                                  info.setValue(value);
+                                  newElem.attrList.push_back(info);
+
+                                  //reset flags and local strings
+                                  flagAName = false;
+                                  flagAValue = false;
+                                  name.clear();
+                                  value.clear();
+                                  cont = 0;
+
+                                  if(*it == '>')
+                                  {
+                                      theEnd=true;
+                                  }
+                              }
+                          }
+                      }
+                  }
+                
+                it++;
+
+                if(*it == '>')
+                {
+                    it++;
+                    theEnd=true;	
+                }
+            }
+
+            if(theEnd)
+            {
+
+                if( it != elem.end())
+                {   
+
+                    while(*it != '<') // saving innerHTML
+                    {     
+                        newElem.innerhtml += *it;
+                        it++;
+                    }
+
+                    if(*it == '<') //there is more info
+                    {  
+                        it++;
+                        if(*it == '/')
+                        {
+                            newElem.bslash = true; // it means thats a tag closed
+
+                            while(*it != '>')
+                            {
+                                it++:
+                            }
+
+
+                            it++;
+                            if(*it == '<')
+                            {
+                                while( it != elem.end())
+                                {
+                                    todaList += *it;
+                                    *it++;
+                                }
+                            }
+
+                        }else
+                        {
+
+                            todaList += '<';
+                        }
+
+                        if(!newElem.bslash)
+                        {
+
+                            while( it != elem.end())
+                            {
+                                todaList += *it;
+                                *it++;
+                            }
+                        }
+
+                        if(!todaList.empty())
+                        {
+                            input.push_back(todaList);
+                        }
+                    }
+                }
+            }
+          }
+      
+          listofElem.push_back(newElem);
+          input.pop_front();
   }
   
-  return(listofElem);
+    return(listofElem);
   
 }
 
