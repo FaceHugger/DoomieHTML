@@ -1,3 +1,11 @@
+/*
+ * Attribute.h
+ *
+ *  Created on: 30/3/2015
+ *  Author(s): Marien
+ *		   	   Sergio
+ */
+ 
 #ifndef ATTRIBUTE_H_
 #define ATTRIBUTE_H_
 
@@ -21,6 +29,7 @@ class Attribute
 		//Builders
 		Attribute() : name(), value() {};
 		Attribute(string n, string v) : name(n), value(v) {};
+		Attribute(const Attribute &);
 		
 		string getName() { return name; }
 		string getValue() { return value; }
@@ -36,6 +45,12 @@ class Attribute
 		//<<
 		friend ostream &operator<<(ostream &, const Attribute &);
 };
+
+//Copy Builder
+Attribute :: Attribute(const Attribute &orig)
+{
+	*this = orig;
+}
 
 //Overloads
 

@@ -2,7 +2,8 @@
  * Element.h
  *
  *  Created on: 30/3/2015
- *      Author: Marien
+ *  Author(s): Marien
+ *		   	   Sergio
  */
 
 #ifndef ELEMENT_H_
@@ -45,6 +46,7 @@ class Element
 		Element() : tagname(), attrList(), innerhtml(), bslash(false) {};
 		Element(string tN): tagname(tN), attrList(), innerhtml(), bslash(false) {};
 		Element(string tN, list<Attribute> a, string iH) : tagname(tN), attrList(a), innerhtml(iH), bslash(false){};
+		Element(const Element &);
 
 		//Consult
 		string tagName() { return tagname; }
@@ -222,7 +224,7 @@ list<Element> Element :: convertToElem(list<string> input)
 
                             while(*it != '>')
                             {
-                                it++:
+                                it++;
                             }
 
 
@@ -269,11 +271,16 @@ list<Element> Element :: convertToElem(list<string> input)
   
 }
 
+//Copy Builder
+Element :: Element(const Element &orig)
+{
+	*this = orig;
+}
   
 //Overloads
 
 //= Element
-Element & Element::operator=(const Element &orig)
+Element &Element::operator=(const Element &orig)
 {
 	this->tagname = orig.tagname;
 	this->attrList = orig.attrList;

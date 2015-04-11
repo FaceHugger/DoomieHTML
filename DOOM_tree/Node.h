@@ -2,7 +2,8 @@
  * Node.h
  *
  *  Created on: 30/3/2015
- *      Author: Marien
+ *  Author(s): Marien
+ *		   	   Sergio
  */
 
 #ifndef NODE_H_
@@ -36,6 +37,8 @@ class Node {
 
 		Node(Element content, Node *leftChild, Node *rigthSibling) :
 			info(content), fChild(leftChild), nSibling(rigthSibling) {};
+			
+		Node(const Node &);
 
 		Element element() { return(info); }
 		Node *firstChild() { return(fChild); }
@@ -51,6 +54,12 @@ class Node {
 		//<<
 		friend ostream &operator<<(ostream &, const Node &);
 };
+
+//Copy Builder
+Node :: Node(const Node &orig)
+{
+	*this = orig;
+}
 
 //Overloads
 

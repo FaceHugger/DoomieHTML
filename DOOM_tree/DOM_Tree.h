@@ -2,7 +2,8 @@
  * DOM_Tree.h
  *
  *  Created on: 30/3/2015
- *      Author: Marien
+ *     Author(s): Marien
+ *		   		  Sergio
  */
 
 #ifndef DOM_TREE_H_
@@ -39,8 +40,8 @@ class DOM_Tree{
 		DOM_Tree() : root(NULL) {};
 		DOM_Tree(Element e) {root = new Node(e);}
 		DOM_Tree(Element info, list<DOM_Tree> childs);
-		DOM_Tree(const DOM_Tree &aRoot); // copy constructor
-		//~DOM_Tree(); // destructor
+		DOM_Tree(const DOM_Tree &aRoot); // copy builder
+		~DOM_Tree(); // destructor
 	
 		Element infoRoot() {return root->element();}
 		DOM_Tree childNode(int p);
@@ -52,7 +53,6 @@ class DOM_Tree{
 		void replaceChild(int p, DOM_Tree newSubtree);
 		void print(); // prints the DOM_Tree in console ( going to be changed as an "<<" overload)
 		void tree(list<Element> l);
-		
 		
 		//Overload of operators
 		//=
@@ -169,6 +169,7 @@ void DOM_Tree :: print()
 {
   in_print(root);
 }
+
 DOM_Tree DOM_Tree :: childNode(int p)
 {
 
@@ -302,8 +303,6 @@ void DOM_Tree :: appendChild(DOM_Tree newChild)
   {
     copy(newChild); 
   }
-  
- 
 }
 
 void DOM_Tree :: appendChild(int pos, DOM_Tree a )
@@ -340,7 +339,7 @@ void DOM_Tree :: removeChild(int pos)
 
    aux2=aux->nextSibling();
    aux->setnextSibling(aux2->nextSibling());
-   //empty(aux);
+   this->empty();
 }
 
 void DOM_Tree :: replaceChild(int p, DOM_Tree newSubtree)
@@ -419,11 +418,10 @@ DOM_Tree &DOM_Tree::operator=(const DOM_Tree &orig)
 
 
 //Destructor
-/*
+
 DOM_Tree :: ~DOM_Tree()
 {
 	this->empty();
 }
-*/
 
 #endif /* DOM_TREE_H_ */

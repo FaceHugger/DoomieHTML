@@ -1,11 +1,9 @@
 /*
  * main.cpp
-
  *
  *  Created on: 30/3/2015
  *      Author(s): Marien
- *		   Sergio
-    
+ *		   		   Sergio  
  */
 
 #include "DOM_Tree.h"
