@@ -10,6 +10,8 @@
 
 ## Contact
 #### Developer: Marien Sequera --- e-mail: marienbsequeram@gmail.com
-#### Developer : Sergio Mota  --- e-mail:
+#### Developer : Sergio Mota  --- e-mail: sergioleomota12@hotmail.com
+
+GitHub URL ---> https://github.com/FaceHugger/DoomieHTML
 
 ![Alt text](http://www.perceptdata.com/home.jpg "Tree")
